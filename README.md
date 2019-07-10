@@ -6,6 +6,8 @@ Simple Http Server for PHP
 ```shell
 php HttpServer.php
 ```
+然后浏览器访问：`http://localhost:8080`。
+
 配置文件在 `config/http_server.php`。
 
 你可以修改demo代码：
