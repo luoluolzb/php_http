@@ -35,6 +35,18 @@ class Server
 	public $port;
 
 	/**
+	 * 客户端地址和端口（当次请求有效）
+	 * @var String
+	 */
+	public $remoteAddress;
+	
+	/**
+	 * 客户端连接端口（当次请求有效）
+	 * @var String
+	 */
+	public $remotePort;
+
+	/**
 	 * 事件容器
 	 * @var luoluolzb\http\EventContainer
 	 */
@@ -54,10 +66,10 @@ class Server
 
 	/**
 	 * 构造函数
-	 * @param string  $confFilePath 配置文件
+	 * @param string  $confPath 配置文件路径
 	 */
-	public function __construct(string $confFilePath) {
-		$this->conf = new Config($confFilePath);
+	public function __construct(string $confPath) {
+		$this->conf = new Config($confPath);
 		$this->event = new EventContainer();
 		$this->address = $this->conf->get('address');
 		$this->port = $this->conf->get('port');
@@ -98,6 +110,9 @@ class Server
 		while (true) {
 			// 等待客户端连接
 			$this->msgSocket = socket_accept($this->socket);
+			// 获取客户端地址和端口
+			socket_getpeername($this->msgSocket, 
+				$this->remoteAddress, $this->remotePort);
 			// 读取客户端消息
 			$requestRaw = socket_read($this->msgSocket, 1024*10);
 			// 处理请求
@@ -124,7 +139,6 @@ class Server
 			// 触发 'request' 事件
 			$this->event->trigger('request', 
 				$this->request, $this->response);
-
 			// 触发 用户注册的请求 事件
 			if ($this->event->exists($this->request->path)) {
 				$this->event->trigger($this->request->path, 
@@ -150,7 +164,7 @@ class Server
 			return false;
 		}
 		$this->response->statusCode($statusCode);
-		$errorPage = $this->conf->get('error_page.' . $statusCode);
+		$errorPage = $this->conf->get("error_page.{$statusCode}");
 		$fileContent = file_get_contents($errorPage);
 		$this->response->header->set('Content-Type', 'text/html');
 		$this->response->body->content($fileContent);

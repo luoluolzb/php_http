@@ -20,8 +20,15 @@ $server->on('close', function($server) {
 });
 
 // 监听客户端请求事件
-$server->on('request', function($request, $response) {
-	echo $request->method . ' ' . $request->url . "\n";
+$server->on('request', function($request, $response) use($server) {
+	// 客户端地址
+	echo $server->remoteAddress, ":";
+	// 客户端连接端口
+	echo $server->remotePort, " ";
+	// 请求方法
+	echo $request->method, ' ';
+	// 请求url
+	echo $request->url, "\n";
 });
 
 // 监听 '/' 请求事件
@@ -39,19 +46,16 @@ $server->on('/hello', function($request, $response) {
 // 监听 '/set-cookie' 请求
 $server->on('/set-cookie', function($request, $response) {
 	$response->header->set('Content-Type', 'text/plain');
-
-	$response->cookie
+	$cookieItems = $response->cookie
 	->set(new CookieItem('name', 'zhangsan'))
-	->set(new CookieItem('age', '22'));
-
-	$cookieItems = $request->cookie->all();
+	->set(new CookieItem('age', '22'))
+	->all();
 	$response->body->content(print_r($cookieItems, true));
 });
 
 // 监听 '/get-cookie' 请求
 $server->on('/get-cookie', function($request, $response) {
 	$response->header->set('Content-Type', 'text/plain');
-
 	$cookieItems = $request->cookie->all();
 	$response->body->content(print_r($cookieItems, true));
 });

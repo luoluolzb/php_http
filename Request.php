@@ -98,8 +98,8 @@ class Request
 			// 获取url请求参数
 			$kvs = explode('&', urldecode($this->queryStr));
 			foreach ($kvs as &$kv) {
-				list($name, $value) = explode('=', $kv);
-				$this->query[$name] = $value;
+				@list($name, $value) = explode('=', $kv);
+				$this->query[$name] = $value ?? '';
 			}
 		} else {
 			$this->path = $this->header->path;
