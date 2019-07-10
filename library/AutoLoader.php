@@ -1,6 +1,6 @@
 <?php
 /**
- * @description psr-4自动加载类
+ * psr-4自动加载类
  * @author      luoluolzb
  */
 namespace luoluolzb\library;
@@ -10,7 +10,7 @@ class AutoLoader
 	/**
 	 * 注册自动加载规则
 	 * @param  string               $namespace 基础命名空间
-	 * @param  array(string)|string $dirs      对应的文件基目录列表=
+	 * @param  array(string)|string $dirs      对应的文件基目录列表
 	 */
 	public static function autoload($namespace, $dirs)
 	{

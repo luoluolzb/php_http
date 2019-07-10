@@ -14,7 +14,7 @@ class Server
 	 * 配置
 	 * @var luoluolzb\http\Config
 	 */
-	protected $conf;
+	public $conf;
 
 	/**
 	 * 事件容器
