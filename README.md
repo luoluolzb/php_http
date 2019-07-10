@@ -18,8 +18,6 @@ $server->on('start', function($server) {
 
 // 监听客户端请求事件
 $server->on('request', function($request, $response) use ($server) {
-	echo $server->remoteAddress, ":";
-	echo $server->remotePort, " ";
 	echo $request->method, ' ';
 	echo $request->path, "\n";
 });
