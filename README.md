@@ -1,5 +1,5 @@
 # php_http
-Simple Http Server for PHP
+使用纯PHP实现的简单http服务器，仅用于熟悉http协议，不建议用来做实际开发。
 
 ## 使用方法
 一个简单的 Http Server 例子：
