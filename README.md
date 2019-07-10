@@ -1,5 +1,5 @@
 # php_http
-Simple Http Server for PHP
+纯PHP实现的简单的http服务器，仅用于学习http，不建议用于实际开发。
 
 ## 使用方法
 一个简单的 Http Server 例子：
@@ -18,16 +18,14 @@ $server->on('start', function($server) {
 
 // 监听客户端请求事件
 $server->on('request', function($request, $response) use ($server) {
-	echo $server->remoteAddress, ":";
-	echo $server->remotePort, " ";
-	echo $request->method, ' ';
-	echo $request->path, "\n";
+	echo $request->method, ' ', $request->path, "\n";
 });
 
 // 监听'/'请求事件
 $server->on('/', function($request, $response) {
 	$response->header->set('Content-Type', 'text/html');
-	$response->body->content(file_get_contents(HTML_PATH . '/index.html'));
+	$fileContent = file_get_contents(HTML_PATH . 'index.html');
+	$response->body->content($fileContent);
 });
 
 $server->start();  // 启动服务器
@@ -41,6 +39,13 @@ php HttpServer.php
 ```
 
 然后浏览器访问：`http://localhost:8080`。
+
 ![welcome](https://github.com/luoluolzb/php_http/blob/master/screenshots/welcome.png?raw=true)
 
 配置文件在 `config/http_server.php`。
+
+## 运行文件浏览server例子
+切换到 `demo` 目录，然后在命令行使用`cli`模式执行脚本：
+```shell
+php HttpServer2.php
+```
