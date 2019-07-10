@@ -39,7 +39,7 @@ class EventContainer
 	 * @param  string $eventName 事件名称
 	 * @param  Array  $args      传给处理函数的参数
 	 */
-	public function call(string $eventName, ...$params) {
+	public function trigger(string $eventName, ...$params) {
 		if (isset($this->handlers[$eventName])) {
 			foreach ($this->handlers[$eventName] as $handler) {
 				call_user_func_array($handler, $params);

@@ -17,12 +17,6 @@ class Server
 	public $conf;
 
 	/**
-	 * 事件容器
-	 * @var luoluolzb\http\EventContainer
-	 */
-	protected $eventContainer;
-
-	/**
 	 * socket
 	 * @var socket
 	 */
@@ -41,12 +35,30 @@ class Server
 	public $port;
 
 	/**
+	 * 事件容器
+	 * @var luoluolzb\http\EventContainer
+	 */
+	protected $event;
+
+	/**
+	 * 客户端请求对象（当次请求有效）
+	 * @var luoluolzb\http\Request
+	 */
+	protected $request;
+
+	/**
+	 * 客户端响应对象（当次请求有效）
+	 * @var luoluolzb\http\Response
+	 */
+	protected $response;
+
+	/**
 	 * 构造函数
 	 * @param string  $confFilePath 配置文件
 	 */
 	public function __construct(string $confFilePath) {
 		$this->conf = new Config($confFilePath);
-		$this->eventContainer = new EventContainer();
+		$this->event = new EventContainer();
 		$this->address = $this->conf->get('address');
 		$this->port = $this->conf->get('port');
 	}
@@ -56,8 +68,17 @@ class Server
 	 */
 	public function __destruct() {
 		socket_close($this->socket);
-		// 调用 'close' 事件处理
-		$this->eventContainer->call('close', $this);
+		// 触发 'close' 事件
+		$this->event->trigger('close', $this);
+	}
+
+	/**
+	 * 添加事件监听函数
+	 * @param  string   $eventName 事件名称
+	 * @param  callable $handler   事件处理函数
+	 */
+	public function on($eventName, callable $handler) {
+		return $this->event->bind($eventName, $handler);
 	}
 
 	/**
@@ -70,8 +91,8 @@ class Server
 		}
 		socket_bind($this->socket, $this->address, $this->port);
 
-		// 调用 'start' 事件处理
-		$this->eventContainer->call('start', $this);
+		// 触发 'start' 事件
+		$this->event->trigger('start', $this);
 		
 		socket_listen($this->socket);
 		while (true) {
@@ -89,50 +110,50 @@ class Server
 	}
 
 	/**
-	 * 添加事件监听函数
-	 * @param  string   $eventName 事件名称
-	 * @param  callable $handler   事件处理函数
-	 */
-	public function on($eventName, callable $handler) {
-		return $this->eventContainer->bind($eventName, $handler);
-	}
-
-	/**
 	 * 处理客户端请求
 	 * @param  string $requestRaw 客户端原始请求内容
 	 * @return string             响应给客户端的内容
 	 */
 	protected function procRequest(string $requestRaw): string {
 		// 解析请求
-		$request = new Request();
-		$request->parseRequestRaw($requestRaw);
-		$response = new Response($request);
+		$this->request = new Request();
+		$this->request->parseRequestRaw($requestRaw);
+		$this->response = new Response($this->request);
 		
-		if ($request->isOk()) { //请求正常
-			// 调用 'request' 事件处理
-			$this->eventContainer->call('request', $request, $response);
+		if ($this->request->isOk()) { //请求正常
+			// 触发 'request' 事件
+			$this->event->trigger('request', 
+				$this->request, $this->response);
 
-			// 调用 用户注册的请求 处理
-			if ($this->eventContainer->exists($request->path)) {
-				$this->eventContainer->call($request->path, $request, $response);
-			} else if ($this->eventContainer->exists('404')) {
-				$this->eventContainer->call('404', $request, $response);
+			// 触发 用户注册的请求 事件
+			if ($this->event->exists($this->request->path)) {
+				$this->event->trigger($this->request->path, 
+					$this->request, $this->response
+				);
 			} else { //请求内容不存在
-				$response->statusCode(404);
-				$errorPage = $this->conf->get('error_page.404');
-				$fileContent = file_get_contents($errorPage);
-				$response->header->set('Content-Type', 'text/html');
-				$response->body->content($fileContent);
+				$this->badRequest(404);
 			}
 		} else { //请求错误
-			$response->statusCode(400);
-			$errorPage = $this->conf->get('error_page.400');
-			$fileContent = file_get_contents($errorPage);
-			$response->header->set('Content-Type', 'text/html');
-			$response->body->content($fileContent);
+			$this->badRequest(400);
 		}
 		
 		// 生成原始响应数据
-		return $response->makeResponseRaw();
+		return $this->response->makeResponseRaw();
+	}
+
+	/**
+	 * 处理错误请求
+	 * @param  string   $statusCode 错误状态码
+	 */
+	public function badRequest(int $statusCode) {
+		if ($statusCode < 400) {
+			return false;
+		}
+		$this->response->statusCode($statusCode);
+		$errorPage = $this->conf->get('error_page.' . $statusCode);
+		$fileContent = file_get_contents($errorPage);
+		$this->response->header->set('Content-Type', 'text/html');
+		$this->response->body->content($fileContent);
+		return true;
 	}
 }
