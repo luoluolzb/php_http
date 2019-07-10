@@ -10,7 +10,7 @@ php HttpServer.php
 
 配置文件在 `config/http_server.php`。
 
-你可以修改demo代码：
+你可以修改 `demo/HttpServer.php` 代码：
 ```php
 <?php
 require __DIR__ . '/../boostrap.php';
