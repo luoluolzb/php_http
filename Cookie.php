@@ -40,12 +40,16 @@ class Cookie
 
 	/**
 	 * 生成响应头原始cookie值
+	 * @param  string $timestamp 过期时间基准时间戳
 	 * @return array 原始Set-Cookie值数组
 	 */
-	public function makeResponseRaws(): array {
+	public function makeResponseRaws(int $timestamp = -1): array {
+		if (-1 == $timestamp) {
+			$timestamp = time();
+		}
 		$raws = [];
 		foreach ($this->items as $item) {
-			$raws[] = $item->getResponseRaw();
+			$raws[] = $item->makeResponseRaw($timestamp);
 		}
 		return $raws;
 	}
@@ -60,7 +64,7 @@ class Cookie
 
 	/**
 	 * 获取一个cookie
-	 * @param string $name  cookie名称
+	 * @param  string $name  cookie名称
 	 * @return CookieItem
 	 */
 	public function get(string $name) {

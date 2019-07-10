@@ -1,7 +1,11 @@
 <?php
 /**
- * 定义系统常量
+ * 启动文件
  * @author luoluolzb <luoluolzb@163.com>
+ */
+
+/**
+ * 定义系统常量
  */
 define('DS', DIRECTORY_SEPARATOR);
 
@@ -15,17 +19,12 @@ define('LIBRARY_PATH', APP_PATH . 'library' . DS);
 define('HTML_PATH', APP_PATH . 'html' . DS);
 
 /**
- * 加载composer自动加载文件
- */
-// require VENDOR_PATH . 'autoload.php';
-
-/**
- * 加载psr4自动加载类
+ * 加载psr-4自动加载类
  */
 require LIBRARY_PATH . 'AutoLoader.php';
 
 /**
- * 注册框架类自动加载规则
+ * 注册psr-4自动加载规则
  */
 luoluolzb\library\AutoLoader::import([
 	'luoluolzb' => APP_PATH,

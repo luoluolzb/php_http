@@ -43,6 +43,12 @@ class Request
 	 * @var string
 	 */
 	public $method;
+
+	/**
+	 * 请求协议
+	 * @var string
+	 */
+	public $protocol;
 	
 	/**
 	 * 请求url
@@ -55,6 +61,12 @@ class Request
 	 * @var string
 	 */
 	public $queryStr;
+
+	/**
+	 * 接收请求的时间（时间戳）
+	 * @var int
+	 */
+	public $timestamp;
 
 	/**
 	 * 请求是否可以正常解析
@@ -70,6 +82,7 @@ class Request
 		$this->header = new Header();
 		$this->body = new Body();
 		$this->cookie = new Cookie();
+		$this->timestamp = time();
 		$this->ok = false;
 	}
 

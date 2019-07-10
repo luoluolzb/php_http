@@ -1,6 +1,6 @@
 <?php
 /**
- * @description 简单Http服务器
+ * 简单http服务器
  * @author luoluolzb <luoluolzb@163.com>
  */
 namespace luoluolzb\http;

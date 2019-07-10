@@ -4,8 +4,7 @@
  * @author luoluolzb <luoluolzb@163.com>
  */
 namespace luoluolzb\http;
-use luoluolzb\http\{Header, Body};
-use luoluolzb\http\Request;
+use luoluolzb\http\{Header, Body, Request};
 
 class Response
 {
@@ -53,7 +52,7 @@ class Response
 		$this->header->set('Server', "luoluolzb's HttpServer");
 		
 		// 设置cookie
-		$raws = $this->cookie->makeResponseRaws();
+		$raws = $this->cookie->makeResponseRaws(time());
 		foreach ($raws as &$raw) {
 			$this->header->set('Set-Cookie', $raw, true);
 		}
@@ -67,7 +66,7 @@ class Response
 
 	/**
 	 * 设置状态码
-	 * @param  int    $code 状态码
+	 * @param int $code 状态码
 	 */
 	public function statusCode(int $code) {
 		$this->statusCode = $code;

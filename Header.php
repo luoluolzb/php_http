@@ -70,10 +70,8 @@ class Header
 	public function makeResponseRaw(int $statusCode): string {
 		$protocol = $this->protocol ?: 'HTTP/1.1';
 		$desc = StatusCode::getDesc($statusCode);
-		
 		// 响应行
 		$raw = "{$protocol} {$statusCode} {$desc}\r\n";
-
 		// 响应头参数
 		foreach ($this->lines as $name => &$value) {
 			if (!is_array($value)) {
@@ -115,10 +113,10 @@ class Header
 
 	/**
 	 * 获取头部行参数
-	 * @param  string       $name  参数名
-	 * @return string|array         获取的参数值
+	 * @param  string             $name  参数名
+	 * @return string|array|null         获取的参数值
 	 */
 	public function get(string $name) {
-		return $this->lines[$name] ?? '';
+		return $this->lines[$name] ?? null;
 	}
 }

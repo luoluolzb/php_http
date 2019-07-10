@@ -12,14 +12,16 @@ class EventContainer
 	 * @var Array
 	 */
 	protected $handlers = [
-		// 'start' => [func1, func2, ...],
+		// 'eventName1' => [handler1, handler2, ...],
+		// 'eventName2' => [handler1, handler2, ...],
+		// ...
 	];
 
 	/**
 	 * 构造函数
 	 */
 	public function __construct() {
-		// some
+		// some code
 	}
 
 	/**

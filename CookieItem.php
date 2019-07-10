@@ -62,14 +62,18 @@ class CookieItem
 
 	/**
 	 * 设置响应Set-Cookie行原始值
+	 * @param  string $timestamp 过期时间基准时间戳
 	 * @return string Set-Cookie行原始值
 	 */
-	public function getResponseRaw(): string {
+	public function makeResponseRaw(int $timestamp = -1): string {
 		$raw = $this->name . '=' . $this->value;
 		$raw .= '; Domain=' . $this->domain;
 		$raw .= '; Path=' . $this->path;
 		if ($this->expires) {
-			$expires = gmdate("l d F Y H:i:s \G\M\T", time() + $this->expires);
+			if (-1 == $timestamp) {
+				$timestamp = time();
+			}
+			$expires = gmdate("l d F Y H:i:s \G\M\T", $timestamp + $this->expires);
 			$raw .= '; Expires=' . $expires;
 		}
 		if ($this->secure) {
