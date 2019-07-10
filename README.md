@@ -44,6 +44,6 @@ php HttpServer.php
 ```
 然后浏览器访问：`http://localhost:8080`。
 
-![welcome](http://github.com/luoluolzb/php_http/raw/master/screenshots/welcome.png)
+![welcome](https://github.com/luoluolzb/php_http/blob/master/screenshots/welcome.png?raw=true)
 
 配置文件在 `config/http_server.php`。
