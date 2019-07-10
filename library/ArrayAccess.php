@@ -3,7 +3,7 @@
  * 数组快速访问trait
  * 可以使用点号分割多级数组名来快速访问，例如
  * array[a][b][c] => $ArrayAccess->get('a.b.c')
- * @author      luoluolzb
+ * @author luoluolzb <luoluolzb@163.com>
  */
 namespace luoluolzb\library;
 
