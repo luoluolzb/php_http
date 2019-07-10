@@ -139,13 +139,17 @@ class Server
 			// 触发 'request' 事件
 			$this->event->trigger('request', 
 				$this->request, $this->response);
-			// 触发 用户注册的请求 事件
-			if ($this->event->exists($this->request->pathinfo)) {
-				$this->event->trigger($this->request->pathinfo, 
-					$this->request, $this->response
-				);
-			} else { //请求内容不存在
-				$this->badRequest(404);
+			if (!$this->request->finish()) { // 继续处理具体请求
+				// 触发 用户注册的请求 事件
+				if ($this->event->exists($this->request->pathinfo)) {
+					$this->event->trigger($this->request->pathinfo, 
+						$this->request, $this->response
+					);
+				} else { //请求内容不存在
+					$this->badRequest(404);
+				}
+			} else { // 已经处理所有请求
+				// some code
 			}
 		} else { //请求错误
 			$this->badRequest(400);

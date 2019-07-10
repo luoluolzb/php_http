@@ -69,6 +69,12 @@ class Request
 	public $timestamp;
 
 	/**
+	 * 已经处理所有请求
+	 * @var bool
+	 */
+	protected $finish;
+
+	/**
 	 * 请求是否可以正常解析
 	 * @var bool
 	 */
@@ -83,6 +89,7 @@ class Request
 		$this->body = new Body();
 		$this->cookie = new Cookie();
 		$this->timestamp = time();
+		$this->finish = false;
 		$this->ok = false;
 	}
 
@@ -141,5 +148,13 @@ class Request
 	 */
 	public function isOk(): bool {
 		return $this->ok;
+	}
+
+	/**
+	 * 所有请求已经完成
+	 * @return bool
+	 */
+	public function finish(): bool {
+		return $this->finish = true;
 	}
 }

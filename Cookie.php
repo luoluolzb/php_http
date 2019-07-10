@@ -81,7 +81,7 @@ class Cookie
 	}
 
 	/**
-	 * 设置一个cookie值，返回原cookie对象，方便链式操作
+	 * 设置一个cookie值
 	 * @param  CookieItem  $value  CookieItem
 	 * @return Cookie              原cookie对象，方便链式操作
 	 */
@@ -91,7 +91,7 @@ class Cookie
 	}
 
 	/**
-	 * 设置一个cookie值，返回原cookie对象，方便链式操作
+	 * 设置一个cookie值
 	 * @param string $name  cookie名称
 	 * @return Cookie       原cookie对象，方便链式操作
 	 */
@@ -101,7 +101,7 @@ class Cookie
 	}
 	
 	/**
-	 * 清空cookie，返回原cookie对象，方便链式操作
+	 * 清空cookie
 	 * @return Cookie 原cookie对象，方便链式操作
 	 */
 	public function clear() {
