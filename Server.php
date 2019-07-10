@@ -140,8 +140,8 @@ class Server
 			$this->event->trigger('request', 
 				$this->request, $this->response);
 			// 触发 用户注册的请求 事件
-			if ($this->event->exists($this->request->path)) {
-				$this->event->trigger($this->request->path, 
+			if ($this->event->exists($this->request->pathinfo)) {
+				$this->event->trigger($this->request->pathinfo, 
 					$this->request, $this->response
 				);
 			} else { //请求内容不存在

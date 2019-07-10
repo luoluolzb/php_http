@@ -1,6 +1,6 @@
 <?php
 /**
- * psr-4自动加载类
+ * psr-4自动加载器类
  * @author luoluolzb <luoluolzb@163.com>
  */
 namespace luoluolzb\library;

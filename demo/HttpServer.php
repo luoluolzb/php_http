@@ -7,11 +7,8 @@ $server = new HttpServer(CONFIG_PATH . 'http_server.php');
 
 // 监听服务器启动事件
 $server->on('start', function($server) {
-	$url = 'http://' . $server->address;
-	if ($server->port != 80) {
-		$url .= ':' . $server->port;
-	}
-	echo "luoluolzb's HttpServer is running at: {$url}\n";
+	$host = $server->address. ':' . $server->port;
+	echo "luoluolzb's HttpServer is running at: http://{$host}\n";
 });
 
 // 监听服务器关闭事件
@@ -20,30 +17,26 @@ $server->on('close', function($server) {
 });
 
 // 监听客户端请求事件
-$server->on('request', function($request, $response) use($server) {
-	// 客户端地址
+$server->on('request', function($request, $response) use ($server) {
 	echo $server->remoteAddress, ":";
-	// 客户端连接端口
 	echo $server->remotePort, " ";
-	// 请求方法
 	echo $request->method, ' ';
-	// 请求url
-	echo $request->url, "\n";
+	echo $request->path, "\n";
 });
 
-// 监听 '/' 请求事件
+// 监听'/'请求事件
 $server->on('/', function($request, $response) {
 	$response->header->set('Content-Type', 'text/html');
 	$response->body->content(file_get_contents(HTML_PATH . '/index.html'));
 });
 
-// 监听 '/hello' 请求事件
+// 监听'/hello'请求事件
 $server->on('/hello', function($request, $response) {
 	$response->header->set('Content-Type', 'text/plain');
 	$response->body->content(print_r($request->query, true));
 });
 
-// 监听 '/set-cookie' 请求
+// 监听'/set-cookie'请求事件
 $server->on('/set-cookie', function($request, $response) {
 	$response->header->set('Content-Type', 'text/plain');
 	$cookieItems = $response->cookie
@@ -53,7 +46,7 @@ $server->on('/set-cookie', function($request, $response) {
 	$response->body->content(print_r($cookieItems, true));
 });
 
-// 监听 '/get-cookie' 请求
+// 监听'/get-cookie'请求事件
 $server->on('/get-cookie', function($request, $response) {
 	$response->header->set('Content-Type', 'text/plain');
 	$cookieItems = $request->cookie->all();

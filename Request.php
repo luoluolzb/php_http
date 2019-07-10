@@ -27,10 +27,16 @@ class Request
 	public $cookie;
 
 	/**
-	 * 请求路径
+	 * 请求路径（有url请求参数）
 	 * @var string
 	 */
 	public $path;
+
+	/**
+	 * 请求路径（无url请求参数）
+	 * @var string
+	 */
+	public $pathinfo;
 
 	/**
 	 * 请求方法
@@ -45,7 +51,7 @@ class Request
 	public $url;
 	
 	/**
-	 * url请求参数
+	 * url请求参数（url中'?'后面的）
 	 * @var string
 	 */
 	public $queryStr;
@@ -91,18 +97,18 @@ class Request
 
 		// 获取请求路径、url查询串、url请求参数
 		$this->query = [];
-		$pos = strpos($this->header->path, '?');
-		if ($pos !== false) {
-			$this->path = substr($this->header->path, 0, $pos);
-			$this->queryStr = substr($this->header->path, $pos + 1);
+		$pos = strpos($this->path, '?');
+		if ($pos !== false) { // 有url请求参数
+			$this->pathinfo = substr($this->path, 0, $pos);
+			$this->queryStr = substr($this->path, $pos + 1);
 			// 获取url请求参数
 			$kvs = explode('&', urldecode($this->queryStr));
 			foreach ($kvs as &$kv) {
 				@list($name, $value) = explode('=', $kv);
 				$this->query[$name] = $value ?? '';
 			}
-		} else {
-			$this->path = $this->header->path;
+		} else { // 无url请求参数
+			$this->pathinfo = $this->path;
 			$this->queryStr = '';
 		}
 		// 获取url
