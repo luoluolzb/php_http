@@ -12,11 +12,8 @@ $server = new HttpServer(CONFIG_PATH . 'http_server.php');
 
 // 监听服务器启动事件
 $server->on('start', function($server) {
-	$url = 'http://' . $server->address;
-	if ($server->port != 80) {
-		$url .= ':' . $server->port;
-	}
-	echo "luoluolzb's HttpServer is running at: {$url}\n";
+	$host = $server->address. ':' . $server->port;
+	echo "luoluolzb's HttpServer is running at: http://{$host}\n";
 });
 
 // 监听客户端请求事件
@@ -42,8 +39,8 @@ $server->start();  // 启动服务器
 ```shell
 php HttpServer.php
 ```
-然后浏览器访问：`http://localhost:8080`。
 
+然后浏览器访问：`http://localhost:8080`。
 ![welcome](https://github.com/luoluolzb/php_http/blob/master/screenshots/welcome.png?raw=true)
 
 配置文件在 `config/http_server.php`。
