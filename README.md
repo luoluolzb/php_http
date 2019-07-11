@@ -1,6 +1,9 @@
 # php_http
 纯PHP实现的简单的http服务器，仅用于学习http，不建议用于实际开发。
 
+## 环境需求
+php >= 7.1
+
 ## 使用方法
 一个简单的 Http Server 例子：
 ```php
