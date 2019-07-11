@@ -1,10 +1,10 @@
 <?php
+namespace luoluolzb\http;
+
 /**
  * http正文类
  * @author luoluolzb <luoluolzb@163.com>
  */
-namespace luoluolzb\http;
-
 class Body
 {
 	/**
@@ -17,7 +17,8 @@ class Body
 	 * 构造函数
 	 * @param string $content 正文内容
 	 */
-	public function __construct(string $content = '') {
+	public function __construct(string $content = '')
+	{
 		$this->content = $content;
 	}
 
@@ -26,7 +27,8 @@ class Body
 	 * @param  string      $content 正文内容
 	 * @return Body|string          原Body对象|正文内容
 	 */
-	public function content(string $content = null) {
+	public function content(string $content = null)
+	{
 		if (isset($content)) {
 			$this->content = $content;
 			return $this;
@@ -39,7 +41,8 @@ class Body
 	 * 获取正文长度
 	 * @return int  正文长度
 	 */
-	public function length(): int {
+	public function length(): int
+	{
 		return strlen($this->content);
 	}
 
@@ -48,7 +51,8 @@ class Body
 	 * @param  string $text 要添加的内容
 	 * @return Body   原Body对象
 	 */
-	public function begin(string $text) {
+	public function begin(string $text): Body
+	{
 		$this->content = $text . $this->content;
 		return $this;
 	}
@@ -58,7 +62,8 @@ class Body
 	 * @return $line 要写入内容
 	 * @return Body  原Body对象
 	 */
-	public function beginln(string $line = '') {
+	public function beginln(string $line = ''): Body
+	{
 		return $this->begin($line . "\n");
 	}
 
@@ -67,7 +72,8 @@ class Body
 	 * @param  string $text 要添加的内容
 	 * @return Body   原Body对象
 	 */
-	public function end(string $text) {
+	public function end(string $text): Body
+	{
 		$this->content .= $text;
 		return $this;
 	}
@@ -77,7 +83,8 @@ class Body
 	 * @return $line 要写入内容
 	 * @return Body  原Body对象
 	 */
-	public function endln(string $line = '') {
+	public function endln(string $line = ''): Body
+	{
 		return $this->end($line . "\n");
 	}
 }

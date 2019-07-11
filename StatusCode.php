@@ -1,10 +1,10 @@
 <?php
+namespace luoluolzb\http;
+
 /**
  * http状态码类
  * @author luoluolzb <luoluolzb@163.com>
  */
-namespace luoluolzb\http;
-
 class StatusCode
 {
 	/**
@@ -12,7 +12,7 @@ class StatusCode
 	 * 来源于：http://tools.jb51.net/table/http_status_code
 	 * @var Array
 	 */
-	static protected $desc = [
+	protected const CODE_DESC = [
 		// 1xx: 信息
 		// 服务器收到请求，需要请求者继续执行操作
 		100 => 'Continue',
@@ -74,8 +74,9 @@ class StatusCode
 	 * @param  int    $code 状态码
 	 * @return string       状态码描述
 	 */
-	public static function getDesc(int $code): string {
-		return self::$desc[$code] ?? '';
+	public static function getDesc(int $code): string
+	{
+		return self::CODE_DESC[$code] ?? '';
 	}
 
 	/**
@@ -83,7 +84,8 @@ class StatusCode
 	 * @param  int    $code 状态码
 	 * @return bool         是否存在
 	 */
-	public static function exists(int $code): bool {
-		return isset(self::$desc[$code]);
+	public static function exists(int $code): bool
+	{
+		return isset(self::CODE_DESC[$code]);
 	}
 }

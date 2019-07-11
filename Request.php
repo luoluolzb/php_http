@@ -1,11 +1,12 @@
 <?php
+namespace luoluolzb\http;
+
+use luoluolzb\http\{Header, Body, Cookie};
+
 /**
  * http请求类
  * @author luoluolzb <luoluolzb@163.com>
  */
-namespace luoluolzb\http;
-use luoluolzb\http\{Header, Body, Cookie};
-
 class Request
 {
 	/**
@@ -84,7 +85,8 @@ class Request
 	 * 构造函数
 	 * @param string $raw 原始请求内容
 	 */
-	public function __construct() {
+	public function __construct()
+	{
 		$this->header = new Header();
 		$this->body = new Body();
 		$this->cookie = new Cookie();
@@ -96,9 +98,10 @@ class Request
 	/**
 	 * 解析请求内容
 	 * @param  string $raw 原始请求内容
-	 * @return bool 请求是否正常
+	 * @return bool        请求是否正常
 	 */
-	public function parseRequestRaw(string $raw) {
+	public function parseRequestRaw(string $raw): bool
+	{
 		$pos = strpos($raw, "\r\n\r\n");
 		if ($pos === false) {
 			return $this->ok = false;
@@ -135,7 +138,7 @@ class Request
 		$this->url = 'http://' . $this->header->get('Host') . $this->header->path;
 		
 		// 解析cookie
-		$this->cookie->parseRequestRaw($this->header->get('Cookie'));
+		$this->cookie->parseRequestRaw($this->header->get('Cookie') ?? '');
 
 		// 解析正文
 		$this->body->content($rawBody);
@@ -146,15 +149,25 @@ class Request
 	 * 请求是否正常
 	 * @return bool 请求是否正常
 	 */
-	public function isOk(): bool {
+	public function isOk(): bool
+	{
 		return $this->ok;
 	}
 
 	/**
-	 * 所有请求已经完成
-	 * @return bool
+	 * 设置所有请求已经完成
 	 */
-	public function finish(): bool {
-		return $this->finish = true;
+	public function setFinish(): void
+	{
+		$this->finish = true;
+	}
+
+	/**
+	 * 判断所有请求是否已经完成
+	 * @return bool 所有请求是否已经完成
+	 */
+	public function isFinish(): bool
+	{
+		return $this->finish;
 	}
 }

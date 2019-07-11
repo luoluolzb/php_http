@@ -1,11 +1,11 @@
 <?php
+namespace luoluolzb\http;
+
 /**
  * cookie项类（一个cookie）
  * cookie说明：https://www.jianshu.com/p/2ceeaef92f20
  * @author luoluolzb <luoluolzb@163.com>
  */
-namespace luoluolzb\http;
-
 class CookieItem
 {
 	/**
@@ -24,48 +24,55 @@ class CookieItem
 	 * 有效域名
 	 * @var string
 	 */
-	public $domain = '';
+	public $domain;
 	
 	/**
 	 * 有效路径
 	 * @var string
 	 */
-	public $path = '/';
+	public $path;
 	
 	/**
 	 * 过期时间（秒）
 	 * 需要转换为GMT格式
 	 * @var int
 	 */
-	public $expires = 3600*12;
+	public $expires;
 	
 	/**
 	 * 仅在加密传输中使用
 	 * @var bool
 	 */
-	public $secure = false;
+	public $secure;
 	
 	/**
 	 * 仅在http/https传输中使用
 	 * @var bool
 	 */
-	public $httpOnly = false;
+	public $httpOnly;
 
 	/**
 	 * 构造函数
 	 * @param string $name cookie名称
 	 */
-	public function __construct(string $name, string $value = '') {
+	public function __construct(string $name, string $value = '')
+	{
 		$this->name = $name;
 		$this->value = $value;
+		$this->domain = '';
+		$this->path = '/';
+		$this->expires = 3600*12;
+		$this->secure = false;
+		$this->httpOnly = false;
 	}
 
 	/**
 	 * 设置响应Set-Cookie行原始值
 	 * @param  string $timestamp 过期时间基准时间戳
-	 * @return string Set-Cookie行原始值
+	 * @return string            Set-Cookie行原始值
 	 */
-	public function makeResponseRaw(int $timestamp = -1): string {
+	public function makeResponseRaw(int $timestamp = -1): string
+	{
 		$raw = $this->name . '=' . $this->value;
 		$raw .= '; Domain=' . $this->domain;
 		$raw .= '; Path=' . $this->path;

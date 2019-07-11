@@ -1,5 +1,6 @@
 <?php
 require __DIR__ . '/../boostrap.php';
+
 use luoluolzb\http\Server as HttpServer;
 use luoluolzb\library\Mime;
 
@@ -43,7 +44,7 @@ $server->on('request', function($request, $response) use ($server) {
 	}
 
 	// 已处理所有请求
-	$request->finish();
+	$request->setFinish();
 });
 
 $server->start();  // 启动服务器

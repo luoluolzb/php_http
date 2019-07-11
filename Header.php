@@ -1,11 +1,12 @@
 <?php
+namespace luoluolzb\http;
+
+use luoluolzb\http\StatusCode;
+
 /**
  * http头部类
  * @author luoluolzb <luoluolzb@163.com>
  */
-namespace luoluolzb\http;
-use luoluolzb\http\StatusCode;
-
 class Header
 {
 	/**
@@ -37,7 +38,8 @@ class Header
 	/**
 	 * 构造函数
 	 */
-	public function __construct() {
+	public function __construct()
+	{
 		$this->lines = [];
 	}
 
@@ -45,13 +47,17 @@ class Header
 	 * 解析原始请求头部内容
 	 * @param  $rawHeader 原始请求头内容
 	 */
-	public function parseRequestRaw(string $rawHeader) {
+	public function parseRequestRaw(string $rawHeader): void
+	{
 		// 按行分割头部内容
 		$rawLine = explode("\r\n", $rawHeader);
 		
 		// 解析请求行
-		list($this->method, $this->path, $this->protocol) 
-		= explode(' ', $rawLine[0]);
+		list(
+			$this->method,
+			$this->path,
+			$this->protocol
+		) = explode(' ', $rawLine[0]);
 
 		// 解析请求头部参数
 		for ($i = 1; isset($rawLine[$i]); ++ $i) {
@@ -67,7 +73,8 @@ class Header
 	 * @param  int $statusCode 状态码
 	 * @return string          响应头原始内容
 	 */
-	public function makeResponseRaw(int $statusCode): string {
+	public function makeResponseRaw(int $statusCode): string
+	{
 		$protocol = $this->protocol ?: 'HTTP/1.1';
 		$desc = StatusCode::getDesc($statusCode);
 		// 响应行
@@ -92,7 +99,8 @@ class Header
 	 * @param  bool    $multi 此参数允许有多个值(如Set-Cookie)
 	 * @return Header         原始Header对象，用于链式操作
 	 */
-	public function set(string $name, string $value, bool $multi = false) {
+	public function set(string $name, string $value, bool $multi = false): Header
+	{
 		$value = trim($value);
 		if (!$multi) { // 不允许多个值
 			$this->lines[$name] = $value;
@@ -116,7 +124,29 @@ class Header
 	 * @param  string             $name  参数名
 	 * @return string|array|null         获取的参数值
 	 */
-	public function get(string $name) {
+	public function get(string $name)
+	{
 		return $this->lines[$name] ?? null;
+	}
+
+	/**
+	 * 判断头部行参数是否存在
+	 * @param  string  $name  参数名
+	 * @return bool           参数是否存在
+	 */
+	public function exists(string $name): bool
+	{
+		return isset($this->lines[$name]);
+	}
+
+	/**
+	 * 判断头部行参数是否存在
+	 * @param  string  $name  参数名
+	 * @return Header         原始Header对象，用于链式操作
+	 */
+	public function delete(string $name): Header
+	{
+		unset($this->lines[$name]);
+		return $this;
 	}
 }

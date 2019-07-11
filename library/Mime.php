@@ -1,10 +1,10 @@
 <?php
+namespace luoluolzb\library;
+
 /**
  * Mime信息类
  * @author luoluolzb <luoluolzb@163.com>
  */
-namespace luoluolzb\library;
-
 class Mime
 {
 	/**
@@ -83,7 +83,13 @@ class Mime
 		'mkv'  => 'video/x-matroska'
 	 ];
 
-	 public static function get($filePath) {
+	 /**
+	  * 获取文件的mime类型串
+	  * @param  string $filePath 文件路径
+	  * @return string           文件mime类型
+	  */
+	 public static function get(string $filePath): string
+	 {
 	 	$temp = explode('.', $filePath);
 	 	$ext = end($temp);
 	 	return self::$mime_list[$ext] ?? '';

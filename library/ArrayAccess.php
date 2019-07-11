@@ -1,41 +1,28 @@
 <?php
+namespace luoluolzb\library;
+
 /**
  * 数组快速访问trait
  * 可以使用点号分割多级数组名来快速访问，例如
  * array[a][b][c] => $ArrayAccess->get('a.b.c')
  * @author luoluolzb <luoluolzb@163.com>
  */
-namespace luoluolzb\library;
-
 trait ArrayAccess
 {
 	/**
 	 * 需要被访问的数组
 	 * @var array
 	 */
-	protected $_array;
+	protected $accessArray;
 
 	/**
-	 * 设置被访问的数组引用
-	 * 应该在使用此trai的类先调用此函数
-	 * @param array $array 被访问的数组
+	 * 绑定被访问的数组引用
+	 * 应该在使用此 trai 的类调用此函数绑定
+	 * @param array $accessArray 被访问的数组
 	 */
-	protected function setAccessArray(array &$array) {
-		$this->_array = &$array;
-	}
-
-	/**
-	 * 设置或获取值
-	 * @param  string $name  键名
-	 * @param  mixed  $value 值
-	 * @return mixed
-	 */
-	public function access($name = null, $value = null, $merge = false) {
-		if (isset($value)) {
-			return $this->set($name, $value, $merge);
-		} else {
-			return $this->set($name);
-		}
+	protected function bindAccessArray(array &$accessArray): void
+	{
+		$this->accessArray = &$accessArray;
 	}
 
 	/**
@@ -43,9 +30,10 @@ trait ArrayAccess
 	 * @param  string $name 键名
 	 * @return mixed
 	 */
-	public function get($name = null) {
-		$data = & $this->_array;
-		if (!isset($name)) {
+	public function get(string $name = '')
+	{
+		$data = & $this->accessArray;
+		if (empty($name)) {
 			return $data;
 		}
 		$keys = explode('.', $name);
@@ -59,7 +47,7 @@ trait ArrayAccess
 			}
 			return $data;
 		} else {
-			return @$arr[$name];
+			return $arr[$name] ?? null;
 		}
 	}
 
@@ -67,10 +55,12 @@ trait ArrayAccess
 	 * 设置一个值
 	 * @param  string $name  键名
 	 * @param  mixed  $value 值
-	 * @return boolean
+	 * @param  bool   $merge 如果为数组是否合并
+	 * @return bool
 	 */
-	public function set($name, $value, $merge = false) {
-		$data = & $this->_array;
+	public function set(string $name, $value, bool $merge = false): bool
+	{
+		$data = & $this->accessArray;
 		$keys = explode('.', $name);
 		if (is_array($keys)) {
 			foreach ($keys as $i => $key) {
@@ -79,11 +69,7 @@ trait ArrayAccess
 				}
 				$data = & $data[$key];
 			}
-			if (!$merge) {
-				$data = $value;
-			} else {
-				$data = array_merge($data, $value);
-			}
+			$data = $merge ? array_merge($data, $value) : $value;
 			return true;
 		} else {
 			$data[$name] = $value;

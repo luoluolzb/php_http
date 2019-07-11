@@ -1,5 +1,6 @@
 <?php
 require __DIR__ . '/../boostrap.php';
+
 use luoluolzb\http\Server as HttpServer;
 use luoluolzb\http\CookieItem;
 
@@ -18,6 +19,7 @@ $server->on('close', function($server) {
 
 // 监听客户端请求事件
 $server->on('request', function($request, $response) use ($server) {
+	// 输出请求信息
 	echo $server->remoteAddress, ':';
 	echo $server->remotePort, ' ';
 	echo $request->method, ' ';
@@ -28,28 +30,29 @@ $server->on('request', function($request, $response) use ($server) {
 // 监听'/'请求事件
 $server->on('/', function($request, $response) {
 	$response->header->set('Content-Type', 'text/html');
-	$response->body->content(file_get_contents(HTML_PATH . '/index.html'));
+	$content = file_get_contents(HTML_PATH . '/index.html');
+	$response->body->content($content);
 });
 
 // 监听'/hello'请求事件
 $server->on('/hello', function($request, $response) {
-	$response->header->set('Content-Type', 'text/plain');
-	$response->body->content(print_r($request->query, true));
+	$query = $request->query;  // 获取url参数
+	$response->body->content(print_r($query, true));
 });
 
 // 监听'/set-cookie'请求事件
 $server->on('/set-cookie', function($request, $response) {
-	$response->header->set('Content-Type', 'text/plain');
-	$cookieItems = $response->cookie
-	->set(new CookieItem('name', 'zhangsan'))
-	->set(new CookieItem('age', '22'))
-	->all();
+	// 设置cookie
+	$response->cookie->set(new CookieItem('name', 'zhangsan'))
+	->set(new CookieItem('age', '22'));
+	// 获取所有响应cookie
+	$cookieItems = $response->cookie->all();
 	$response->body->content(print_r($cookieItems, true));
 });
 
 // 监听'/get-cookie'请求事件
 $server->on('/get-cookie', function($request, $response) {
-	$response->header->set('Content-Type', 'text/plain');
+	// 获取所有请求cookie
 	$cookieItems = $request->cookie->all();
 	$response->body->content(print_r($cookieItems, true));
 });
