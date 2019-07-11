@@ -27,6 +27,6 @@ require LIBRARY_PATH . 'AutoLoader.php';
  * 注册psr-4自动加载规则
  */
 luoluolzb\library\AutoLoader::import([
-	'luoluolzb' => APP_PATH,
-	'luoluolzb\http' => APP_PATH,
+    'luoluolzb' => APP_PATH,
+    'luoluolzb\http' => APP_PATH,
 ]);
