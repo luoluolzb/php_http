@@ -45,15 +45,14 @@ $server->on('request', function($request, $response) use ($server) {
 // 监听'/'请求事件
 $server->on('/', function($request, $response) {
     $response->header->set('Content-Type', 'text/html');
-    $fileContent = file_get_contents('hello, world!');
-    $response->body->content($fileContent);
+    $response->body->end('hello, world!');
 });
 
 $server->start();  // 启动服务器
 
 ```
 
-请在`php-cli`模式下运行此代码。
+请在`php-cli`模式下运行此代码，下同。
 
 
 ## 简单web服务器
