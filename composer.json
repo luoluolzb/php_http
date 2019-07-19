@@ -16,7 +16,7 @@
         }
     },
     "scripts": {
-        "phpcs": "vendor\\bin\\phpcs -sw --standard=PSR2 --colors .\\src .\\demo",
-        "phpcbf": "vendor\\bin\\phpcbf -sw --standard=PSR2 --colors .\\src .\\demo"
+        "phpcs": "vendor\\bin\\phpcs -sw --standard=PSR2 --colors .\\src .\\tests",
+        "phpcbf": "vendor\\bin\\phpcbf -sw --standard=PSR2 --colors .\\src .\\tests"
     }
 }

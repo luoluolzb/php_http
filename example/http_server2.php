@@ -1,10 +1,17 @@
 <?php
-require __DIR__ . '/boostrap.php';
+require __DIR__ . '/../vendor/autoload.php';
 
+use luoluolzb\library\{Config, Mime};
 use luoluolzb\http\Server as HttpServer;
-use luoluolzb\library\Mime;
 
-$server = new HttpServer(CONFIG_PATH . 'http_server.php');
+$server = new HttpServer(new Config([
+    // 监听地址
+    'address' => 'localhost',
+    // 监听端口（http默认80）
+    'port' => 8081,
+    // web目录（自定义配置）
+    'web_path' => __DIR__ . '/../html',
+]));
 
 // 监听服务器启动事件
 $server->on('start', function ($server) {
@@ -20,18 +27,14 @@ $server->on('close', function ($server) {
 // 监听客户端请求事件
 $server->on('request', function ($request, $response) use ($server) {
     // 输出请求信息
-    echo $server->remoteAddress, ':';
-    echo $server->remotePort, ' ';
-    echo $request->method, ' ';
-    echo $request->protocol, ' ';
-    echo $request->path, "\n";
+    echo $request->method, ' ', $request->path, "\n";
 
     // 处理请求
     // 读取请求的文件内容并返回给客户端
-    $path = $server->conf->get('web_path') . DS . $request->path;
+    $path = $server->conf->get('web_path') . $request->path;
     if (file_exists($path)) {
         if (is_dir($path)) {
-            $path .= DS . 'index.html';
+            $path .= '/index.html';
         }
         if (file_exists($path)) {
             $content = file_get_contents($path);

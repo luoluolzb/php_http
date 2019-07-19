@@ -1,10 +1,12 @@
 <?php
-require __DIR__ . '/boostrap.php';
+require __DIR__ . '/../vendor/autoload.php';
 
+use luoluolzb\library\Config;
 use luoluolzb\http\Server as HttpServer;
 use luoluolzb\http\CookieItem;
 
-$server = new HttpServer(CONFIG_PATH . 'http_server.php');
+$config = new Config(__DIR__ . '/config/http_server.php');
+$server = new HttpServer($config);
 
 // 监听服务器启动事件
 $server->on('start', function ($server) {
@@ -30,7 +32,7 @@ $server->on('request', function ($request, $response) use ($server) {
 // 监听'/'请求事件
 $server->on('/', function ($request, $response) {
     $response->header->set('Content-Type', 'text/html');
-    $content = file_get_contents(HTML_PATH . '/index.html');
+    $content = file_get_contents(__DIR__ . '/html/index.html');
     $response->body->content($content);
 });
 

@@ -15,7 +15,7 @@ class Server
 {
     /**
      * 配置
-     * @var luoluolzb\http\Config
+     * @var Config
      */
     public $conf;
 
@@ -51,19 +51,19 @@ class Server
 
     /**
      * 事件容器
-     * @var luoluolzb\http\EventContainer
+     * @var EventContainer
      */
     protected $event;
 
     /**
      * 客户端请求对象（当次请求有效）
-     * @var luoluolzb\http\Request
+     * @var Request
      */
     protected $request;
 
     /**
      * 客户端响应对象（当次请求有效）
-     * @var luoluolzb\http\Response
+     * @var Response
      */
     protected $response;
 
@@ -71,12 +71,12 @@ class Server
      * 构造函数
      * @param string  $confPath 配置文件路径
      */
-    public function __construct(string $confPath)
+    public function __construct(Config $conf)
     {
-        $this->conf = new Config($confPath);
+        $this->conf = $conf;
         $this->event = new EventContainer();
-        $this->address = $this->conf->get('address');
-        $this->port = $this->conf->get('port');
+        $this->address = $this->conf->get('address') ?? '127.0.0.1';
+        $this->port = $this->conf->get('port') ?? 80;
     }
 
     /**
@@ -190,9 +190,11 @@ class Server
         }
         $this->response->statusCode($statusCode);
         $errorPage = $this->conf->get("error_page.{$statusCode}");
-        $fileContent = file_get_contents($errorPage);
-        $this->response->header->set('Content-Type', 'text/html');
-        $this->response->body->content($fileContent);
+        if (file_exists($errorPage)) {
+            $this->response->header->set('Content-Type', 'text/html');
+            $fileContent = file_get_contents($errorPage);
+            $this->response->body->content($fileContent);
+        }
         return true;
     }
 }

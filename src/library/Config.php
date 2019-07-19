@@ -14,33 +14,51 @@ class Config
      * 配置数据
      * @var array
      */
-    public $data = [];
+    public $data;
 
     /**
      * 构造函数
-     * @param  配置文件路径
+     * @param  string|array  配置文件路径或者配置数组
+     * @throws \InvalidArgumentException 参数错误
      */
-    public function __construct(string $confFilePath = null)
+    public function __construct($conf = null)
     {
-        if ($confFilePath) {
-            $this->load($confFilePath);
-        }
+        $this->data = [];
         $this->bindAccessArray($this->data);
+        if (isset($conf)) {
+            if (is_string($conf)) {
+                $this->loadFromFile($conf);
+            } elseif (is_array($conf)) {
+                $this->loadFromArray($conf);
+            } else {
+                throw new \InvalidArgumentException("Invalid Argument");
+            }
+        }
     }
 
     /**
-     * 加载一个配置
+     * 从配置文件加载一个配置
      * @param string $confFilePath 配置文件路径
+     * @return bool 加载是否成功
      */
-    public function load(string $confFilePath): bool
+    public function loadFromFile(string $confFilePath): bool
     {
         if (file_exists($confFilePath)) {
-            $fileData = include($confFilePath);
-            $this->data = array_merge($this->data, $fileData);
-            $this->bindAccessArray($this->data);
-            return true;
+            return $this->loadFromArray(require($confFilePath));
         } else {
             return false;
         }
+    }
+
+    /**
+     * 从配置数组加载一个配置
+     * @param string $confFilePath 配置数组
+     * @return bool 加载是否成功
+     */
+    public function loadFromArray(array $conf): bool
+    {
+        $this->data = array_merge($this->data, $conf);
+        $this->bindAccessArray($this->data);
+        return true;
     }
 }
