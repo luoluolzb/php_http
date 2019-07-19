@@ -1,8 +1,10 @@
 <?php
 namespace luoluolzb\http;
 
-use luoluolzb\library\{Config, EventContainer};
-use luoluolzb\http\{Request, Response};
+use luoluolzb\library\Config;
+use luoluolzb\library\EventContainer;
+use luoluolzb\http\Request;
+use luoluolzb\http\Response;
 use luoluolzb\http\exception\ServerStartException;
 
 /**
@@ -119,7 +121,7 @@ class Server
             $this->msgSocket = socket_accept($this->socket);
             // 获取客户端地址和端口
             socket_getpeername(
-                $this->msgSocket, 
+                $this->msgSocket,
                 $this->remoteAddress,
                 $this->remotePort
             );
@@ -149,7 +151,7 @@ class Server
         if ($this->request->isOk()) { //请求正常
             // 触发 'request' 事件
             $this->event->trigger(
-                'request', 
+                'request',
                 $this->request,
                 $this->response
             );
@@ -158,7 +160,7 @@ class Server
                 // 触发 用户注册的请求 事件
                 if ($this->event->exists($this->request->pathinfo)) {
                     $this->event->trigger(
-                        $this->request->pathinfo, 
+                        $this->request->pathinfo,
                         $this->request,
                         $this->response
                     );

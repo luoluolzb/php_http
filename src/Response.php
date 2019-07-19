@@ -1,7 +1,9 @@
 <?php
 namespace luoluolzb\http;
 
-use luoluolzb\http\{Header, Body, Request};
+use luoluolzb\http\Header;
+use luoluolzb\http\Body;
+use luoluolzb\http\Request;
 
 /**
  * http响应类

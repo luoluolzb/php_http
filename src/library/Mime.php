@@ -88,10 +88,10 @@ class Mime
       * @param  string $filePath 文件路径
       * @return string           文件mime类型
       */
-     public static function get(string $filePath): string
-     {
-         $temp = explode('.', $filePath);
-         $ext = end($temp);
-         return self::$mime_list[$ext] ?? '';
-     }
+    public static function get(string $filePath): string
+    {
+        $temp = explode('.', $filePath);
+        $ext = end($temp);
+        return self::$mime_list[$ext] ?? '';
+    }
 }

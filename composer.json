@@ -1,0 +1,22 @@
+{
+    "name": "luoluolzb/php_http",
+    "type": "library",
+    "description": "simple http server for study http protocol",
+    "keywords": ["http server","http","protocol"],
+    "homepage": "https://github.com/luoluolzb/php_http",
+    "license": "MIT",
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "luoluolzb\\http\\": "src/",
+            "luoluolzb\\": "src/",
+            "tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "phpcs": "vendor\\bin\\phpcs -sw --standard=PSR2 --colors .\\src .\\demo",
+        "phpcbf": "vendor\\bin\\phpcbf -sw --standard=PSR2 --colors .\\src .\\demo"
+    }
+}

@@ -1,14 +1,17 @@
 # php_http
 纯PHP实现的简单的http服务器，仅用于学习http，不建议用于实际开发。
 
-## 环境需求
-php >= 7.1
+## 安装
+使用composer安装：
+```
+composer require luoluolzb/php_http
+```
 
-## 使用方法
+## 使用
 一个简单的 Http Server 例子：
 ```php
 <?php
-require __DIR__ . '/../boostrap.php';
+require __DIR__ . '/boostrap.php';
 use luoluolzb\http\Server as HttpServer;
 
 $server = new HttpServer(CONFIG_PATH . 'http_server.php');
@@ -38,7 +41,7 @@ $server->start();  // 启动服务器
 ## 运行 Http Server 例子
 切换到 `demo` 目录，然后在命令行使用`cli`模式执行脚本：
 ```shell
-php HttpServer.php
+php HttpServer1.php
 ```
 
 然后浏览器访问：`http://localhost:8080`。

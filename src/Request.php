@@ -1,7 +1,9 @@
 <?php
 namespace luoluolzb\http;
 
-use luoluolzb\http\{Header, Body, Cookie};
+use luoluolzb\http\Header;
+use luoluolzb\http\Body;
+use luoluolzb\http\Cookie;
 
 /**
  * http请求类
