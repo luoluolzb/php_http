@@ -28,8 +28,8 @@ if ($request->isOk()) {
     $response->header->set('Connection', 'Close');
     $response->body->end('good job!');
     $response->cookie->delete('delPer')
-    ->set(new CookieItem('name', 'zhangsan'))
-    ->set(new CookieItem('age', '22'));
+        ->set(new CookieItem('name', 'zhangsan'))
+        ->set(new CookieItem('age', '22'));
 
     echo $response->makeResponseRaw();
 } else {

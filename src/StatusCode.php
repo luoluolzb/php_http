@@ -3,6 +3,7 @@ namespace luoluolzb\http;
 
 /**
  * http状态码类
+ *
  * @author luoluolzb <luoluolzb@163.com>
  */
 class StatusCode
@@ -10,6 +11,7 @@ class StatusCode
     /**
      * 状态码对应的描述
      * 来源于：http://tools.jb51.net/table/http_status_code
+     *
      * @var Array
      */
     protected const CODE_DESC = [
@@ -71,8 +73,10 @@ class StatusCode
 
     /**
      * 获取状态码描述
-     * @param  int    $code 状态码
-     * @return string       状态码描述
+     *
+     * @param int $code 状态码
+     *
+     * @return string 状态码描述
      */
     public static function getDesc(int $code): string
     {
@@ -81,8 +85,10 @@ class StatusCode
 
     /**
      * 判断某个状态码是否存在
-     * @param  int    $code 状态码
-     * @return bool         是否存在
+     *
+     * @param int $code 状态码
+     *
+     * @return bool 是否存在
      */
     public static function exists(int $code): bool
     {

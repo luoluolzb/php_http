@@ -98,7 +98,7 @@ $server->on('request', function ($request, $response) use ($server) {
         if (file_exists($path)) {
             $content = file_get_contents($path);
             $response->header->set('Content-Type', Mime::get($path));
-            $response->body->content($content);
+            $response->body->setContent($content);
         } else {
             $server->badRequest(404);
         }

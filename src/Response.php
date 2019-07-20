@@ -7,37 +7,43 @@ use luoluolzb\http\Request;
 
 /**
  * http响应类
+ *
  * @author luoluolzb <luoluolzb@163.com>
  */
 class Response
 {
     /**
      * 请求头
-     * @var luoluolzb\http\Header
+     *
+     * @var Header
      */
     public $header;
     
     /**
      * 请求正文
-     * @var luoluolzb\http\Body
+     *
+     * @var Body
      */
     public $body;
 
     /**
      * 响应cookie
-     * @var luoluolzb\http\Cookie
+     *
+     * @var Cookie
      */
     public $cookie;
 
     /**
      * 状态码
+     *
      * @var int
      */
     protected $statusCode;
 
     /**
      * 构造函数
-     * @param  luoluolzb\http\Request $requst 请求对象
+     *
+     * @param Request $request 请求对象
      */
     public function __construct(Request $request)
     {
@@ -49,6 +55,7 @@ class Response
 
     /**
      * 生成原始响应内容
+     *
      * @return string 响应内容
      */
     public function makeResponseRaw(): string
@@ -68,17 +75,18 @@ class Response
         }
         
         // 设置正文长度
-        $this->header->set('Content-Length', $this->body->length());
+        $this->header->set('Content-Length', (string)$this->body->length());
 
         // 获取原始头部内容和正文内容然后组合
         return
         $this->header->makeResponseRaw($this->statusCode)
         . "\r\n"
-        . $this->body->content();
+        . $this->body->getContent();
     }
 
     /**
      * 设置状态码
+     *
      * @param int $code 状态码
      */
     public function statusCode(int $code): void

@@ -5,24 +5,28 @@ use luoluolzb\http\StatusCode;
 
 /**
  * http头部类
+ *
  * @author luoluolzb <luoluolzb@163.com>
  */
 class Header
 {
     /**
      * 请求方法（请求行第一个参数）
+     *
      * @var string
      */
     public $method;
     
     /**
      * 请求路径（请求行第二个参数）
+     *
      * @var string
      */
     public $path;
 
     /**
      * 请求协议/版本（请求行第三个参数）
+     *
      * @var string
      */
     public $protocol;
@@ -31,6 +35,7 @@ class Header
      * 头部参数（键值对）
      * 如果一个参数有多个值那么元素类型为数组
      * 一个参数只有一个值则元素类型为字符串
+     *
      * @var Array
      */
     public $lines;
@@ -45,7 +50,10 @@ class Header
 
     /**
      * 解析原始请求头部内容
-     * @param  $rawHeader 原始请求头内容
+     *
+     * @param string $rawHeader 原始请求头内容
+     *
+     * @return void
      */
     public function parseRequestRaw(string $rawHeader): void
     {
@@ -62,16 +70,23 @@ class Header
         // 解析请求头部参数
         for ($i = 1; isset($rawLine[$i]); ++ $i) {
             $pos = strpos($rawLine[$i], ":");
-            $name = trim(substr($rawLine[$i], 0, $pos));
-            $value = trim(substr($rawLine[$i], $pos + 1));
+            if (false !== $pos) {
+                $name = trim(substr($rawLine[$i], 0, $pos));
+                $value = trim(substr($rawLine[$i], $pos + 1));
+            } else {
+                $name = trim($rawLine[$i]);
+                $value = '';
+            }
             $this->lines[$name] = $value;
         }
     }
 
     /**
      * 生成响应头原始内容
-     * @param  int $statusCode 状态码
-     * @return string          响应头原始内容
+     *
+     * @param int $statusCode 状态码
+     *
+     * @return string 响应头原始内容
      */
     public function makeResponseRaw(int $statusCode): string
     {
@@ -94,10 +109,12 @@ class Header
 
     /**
      * 设置头部行参数
-     * @param  string  $name  参数名
-     * @param  string  $value 参数值
-     * @param  bool    $multi 此参数允许有多个值(如Set-Cookie)
-     * @return Header         原始Header对象，用于链式操作
+     *
+     * @param string $name  参数名
+     * @param string $value 参数值
+     * @param bool   $multi 此参数允许有多个值(如Set-Cookie)
+     *
+     * @return Header 原始Header对象，用于链式操作
      */
     public function set(string $name, string $value, bool $multi = false): Header
     {
@@ -121,8 +138,10 @@ class Header
 
     /**
      * 获取头部行参数
-     * @param  string             $name  参数名
-     * @return string|array|null         获取的参数值
+     *
+     * @param string $name 参数名
+     *
+     * @return string|array|null 获取的参数值
      */
     public function get(string $name)
     {
@@ -131,8 +150,10 @@ class Header
 
     /**
      * 判断头部行参数是否存在
-     * @param  string  $name  参数名
-     * @return bool           参数是否存在
+     *
+     * @param string $name 参数名
+     *
+     * @return bool 参数是否存在
      */
     public function exists(string $name): bool
     {
@@ -141,8 +162,10 @@ class Header
 
     /**
      * 判断头部行参数是否存在
-     * @param  string  $name  参数名
-     * @return Header         原始Header对象，用于链式操作
+     *
+     * @param string $name 参数名
+     *
+     * @return Header 原始Header对象，用于链式操作
      */
     public function delete(string $name): Header
     {

@@ -21,7 +21,7 @@ $header->parseRequestRaw($raw);
 
 $header->set('Host', 'localhost:8080');
 $header->set('Connection', 'close');
-$header->set('Content-Length', 0);
+$header->set('Content-Length', '0');
 $header->set('Set-Cookie', 'aaaaa', true);
 $header->set('Set-Cookie', 'bbbb', true);
 echo $header->makeResponseRaw(404);

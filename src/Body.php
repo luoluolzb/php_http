@@ -3,18 +3,21 @@ namespace luoluolzb\http;
 
 /**
  * http正文类
- * @author luoluolzb <luoluolzb@163.com>
+ *
+ * @author    luoluolzb <luoluolzb@163.com>
  */
 class Body
 {
     /**
      * 正文内容
+     *
      * @var string
      */
     protected $content;
 
     /**
      * 构造函数
+     *
      * @param string $content 正文内容
      */
     public function __construct(string $content = '')
@@ -24,22 +27,31 @@ class Body
 
     /**
      * 设置或获取正文内容
-     * @param  string      $content 正文内容
-     * @return Body|string          原Body对象|正文内容
+     *
+     * @return string 正文内容
      */
-    public function content(string $content = null)
+    public function getContent()
     {
-        if (isset($content)) {
-            $this->content = $content;
-            return $this;
-        } else {
-            return $this->content;
-        }
+        return $this->content;
+    }
+
+    /**
+     * 设置或获取正文内容
+     *
+     * @param string $content 正文内容
+     *
+     * @return Body 原Body对象
+     */
+    public function setContent(string $content)
+    {
+        $this->content = $content;
+        return $this;
     }
 
     /**
      * 获取正文长度
-     * @return int  正文长度
+     *
+     * @return int 正文长度
      */
     public function length(): int
     {
@@ -48,8 +60,10 @@ class Body
 
     /**
      * 向正文头部添加内容
-     * @param  string $text 要添加的内容
-     * @return Body   原Body对象
+     *
+     * @param string $text 要添加的内容
+     *
+     * @return Body 原Body对象
      */
     public function begin(string $text): Body
     {
@@ -59,8 +73,10 @@ class Body
 
     /**
      * 向正文头部添加内容并换行
-     * @return $line 要写入内容
-     * @return Body  原Body对象
+     *
+     * @param string $line 要写入内容
+     *
+     * @return Body 原Body对象
      */
     public function beginln(string $line = ''): Body
     {
@@ -69,8 +85,10 @@ class Body
 
     /**
      * 向正文头部添加内容
-     * @param  string $text 要添加的内容
-     * @return Body   原Body对象
+     *
+     * @param string $text 要添加的内容
+     *
+     * @return Body 原Body对象
      */
     public function end(string $text): Body
     {
@@ -80,8 +98,10 @@ class Body
     
     /**
      * 向正文写入一行内容并换行
-     * @return $line 要写入内容
-     * @return Body  原Body对象
+     *
+     * @param string $line 要写入内容
+     *
+     * @return Body 原Body对象
      */
     public function endln(string $line = ''): Body
     {

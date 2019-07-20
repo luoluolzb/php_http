@@ -3,7 +3,14 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use luoluolzb\library\Config;
 
-$config = new Config(CONFIG_PATH . 'http_server.php');
+$config = new Config(
+    [
+    // 监听地址
+    'address' => 'localhost',
+    // 监听端口（http默认80）
+    'port' => 8080,
+    ]
+);
 
 print_r($config->get('default_file'));
 

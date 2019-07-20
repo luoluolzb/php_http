@@ -13,10 +13,10 @@ $cookie->parseRequestRaw($raw);
 // print_r($cookie->makeResponseRaws());
 
 $cookie->clear()
-->set(new CookieItem('name', 'luoluolzb'))
-->set(new CookieItem('age', '20'))
-->delete('name')
-->set(new CookieItem('id', '109e03'));
+    ->set(new CookieItem('name', 'luoluolzb'))
+    ->set(new CookieItem('age', '20'))
+    ->delete('name')
+    ->set(new CookieItem('id', '109e03'));
 
 print_r($cookie->all());
 // var_dump($cookie->exists('name'));

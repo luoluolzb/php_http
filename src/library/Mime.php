@@ -3,12 +3,14 @@ namespace luoluolzb\library;
 
 /**
  * Mime信息类
+ *
  * @author luoluolzb <luoluolzb@163.com>
  */
 class Mime
 {
     /**
      * 文件后缀对应的mime类型
+     *
      * @var array
      */
     protected static $mime_list = [
@@ -85,8 +87,10 @@ class Mime
 
      /**
       * 获取文件的mime类型串
-      * @param  string $filePath 文件路径
-      * @return string           文件mime类型
+      *
+      * @param string $filePath 文件路径
+      *
+      * @return string 文件mime类型
       */
     public static function get(string $filePath): string
     {
